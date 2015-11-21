@@ -28,7 +28,7 @@ namespace KoreanDate
         /// <returns></returns>
         public KoreanDate ConvertFromGregorianDateTime(DateTime d)
         {
-
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -36,6 +36,9 @@ namespace KoreanDate
         /// </summary>
         /// <param name="d"></param>
         /// <returns></returns>
-        public DateTime ConvertToGregorianDateTime(KoreanDate d) { }
+        public DateTime ConvertToGregorianDateTime(KoreanDate d)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
