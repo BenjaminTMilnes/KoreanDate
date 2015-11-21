@@ -309,11 +309,7 @@ namespace KoreanDate
         /// <returns></returns>
         public static int DaysInYear(int Year, KoreanDateEraType EraType)
         {
-            var DayCounter1 = new DayCounter();
-
-            DayCounter1.CountUpTo(Year);
-
-            return DayCounter1.DaysInYear;
+            return (DaysUntilYear(Year + 1, EraType) - DaysUntilYear(Year, EraType));
         }
 
         /// <summary>
@@ -323,11 +319,7 @@ namespace KoreanDate
         /// <returns></returns>
         public static int MonthsInYear(int Year, KoreanDateEraType EraType)
         {
-            var DayCounter1 = new DayCounter();
-
-            DayCounter1.CountUpTo(Year);
-
-            return DayCounter1.MonthsInYear;
+            return (MonthsUntilYear(Year + 1, EraType) - MonthsUntilYear(Year, EraType));
         }
 
         /// <summary>
@@ -338,6 +330,32 @@ namespace KoreanDate
         public static bool IsLeapYear(int Year, KoreanDateEraType EraType)
         {
             return (MonthsInYear(Year, EraType) == 13);
+        }
+        
+        private static int DaysUntilMonth(int Year, KoreanDateEraType EraType, int Month)
+        {
+
+        }
+
+         private static int DaysUntilYear(int Year, KoreanDateEraType EraType)
+        {
+            return (int)Math.Floor(KoreanDateConverter.LunarCycle * MonthsUntilYear(Year, EraType));
+        }
+
+        private static int MonthsUntilYear(int Year, KoreanDateEraType EraType)
+        {
+            var DaysUntilSolarYear = KoreanDateConverter.SolarCycle * Year;
+            var RemainderDays = DaysUntilSolarYear % KoreanDateConverter.LunarCycle;
+            var MonthsUntilYear = (int)Math.Floor(DaysUntilSolarYear / KoreanDateConverter.LunarCycle);
+
+            if (RemainderDays > KoreanDateConverter.LunarCycle / 2)
+            {
+                return MonthsUntilYear + 1;
+            }
+            else
+            {
+                return MonthsUntilYear;
+            }
         }
 
         public bool Equals(KoreanDate d)
