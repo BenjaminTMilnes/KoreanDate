@@ -169,10 +169,23 @@ namespace KoreanDate
         /// <param name="Day"></param>
         public KoreanDate(KoreanDateEraType EraType, int Day)
         {
-            _Day = Day;
-            _Month =(int) Math.Floor( _Day / KoreanDateConverter.LunarCycle);
+            _Year = 1;
+            _EraType = KoreanDateEraType.Joseon;
+            _Month = 1;
+            _MonthOfYear = 1;
+            _Day = 1;
+            _DayOfYear = 1;
+            _DayOfMonth = 1;
 
-            var SolarYear =(int) Math.Floor( Day / KoreanDateConverter.SolarCycle);
+            FromDay(EraType, Day);
+        }
+
+        private void FromDay(KoreanDateEraType EraType, int Day)
+        {
+            _Day = Day;
+            _Month = (int)Math.Floor(_Day / KoreanDateConverter.LunarCycle);
+
+            var SolarYear = (int)Math.Floor(Day / KoreanDateConverter.SolarCycle);
             // The lunisolar year will either be one ahead, one behind, or the same as the solar year - that being the whole point of a lunisolar calendar.
 
             var MonthsUntilYear1 = MonthsUntilYear(SolarYear, EraType);
@@ -191,10 +204,10 @@ namespace KoreanDate
                 _Year = SolarYear;
             }
 
-            _DayOfYear = _Day -  DaysUntilYear(_Year, EraType);
-            _DayOfMonth = _Day - DaysUntilMonth(_Year, EraType,_Month);
+            _DayOfYear = _Day - DaysUntilYear(_Year, EraType);
+            _DayOfMonth = _Day - DaysUntilMonth(_Year, EraType, _Month);
             _MonthOfYear = _Month - MonthsUntilYear(_Year, EraType);
-                                    
+
             _EraType = EraType;
         }
 
@@ -205,6 +218,26 @@ namespace KoreanDate
         /// <param name="MonthOfYear"></param>
         /// <param name="DayOfMonth"></param>
         public KoreanDate(int Year, KoreanDateEraType EraType, int MonthOfYear, int DayOfMonth)
+        {
+            _Year = 1;
+            _EraType = KoreanDateEraType.Joseon;
+            _Month = 1;
+            _MonthOfYear = 1;
+            _Day = 1;
+            _DayOfYear = 1;
+            _DayOfMonth = 1;
+
+            FromParts(Year, EraType, MonthOfYear, DayOfMonth);
+        }
+
+        /// <summary>
+        /// Sets the properties of this KoreanDate instance based on the given components. This function will compensate for excessive values like 22 months or 60 days by counting forward.
+        /// </summary>
+        /// <param name="Year"></param>
+        /// <param name="EraType"></param>
+        /// <param name="MonthOfYear"></param>
+        /// <param name="DayOfMonth"></param>
+        private void FromParts(int Year, KoreanDateEraType EraType, int MonthOfYear, int DayOfMonth)
         {
             _Year = Year;
             _EraType = EraType;
@@ -223,7 +256,7 @@ namespace KoreanDate
         /// <param name="Days"></param>
         public void AddDays(int Days)
         {
-            throw new NotImplementedException();
+            FromDay(_EraType, _Day + Days);
         }
 
         /// <summary>
@@ -241,7 +274,7 @@ namespace KoreanDate
         /// <param name="Months"></param>
         public void AddMonths(int Months)
         {
-            throw new NotImplementedException();
+            FromDay(_EraType, DaysUntilMonth(_Month + Months) + _DayOfMonth);
         }
 
         /// <summary>
@@ -259,7 +292,7 @@ namespace KoreanDate
         /// <param name="Years"></param>
         public void AddYears(int Years)
         {
-            throw new NotImplementedException();
+            FromDay(_EraType, DaysUntilYear(_Year + Years, _EraType) + _DayOfYear);            
         }
 
         /// <summary>
@@ -279,7 +312,8 @@ namespace KoreanDate
         /// <returns></returns>
         public static int DaysInMonth(int Year, KoreanDateEraType EraType, int Month)
         {
-            if (Month == MonthsInYear(Year, EraType)) {
+            if (Month == MonthsInYear(Year, EraType))
+            {
                 return (DaysUntilMonth(Year + 1, EraType, 1) - DaysUntilMonth(Year, EraType, Month));
             }
             else
@@ -318,9 +352,16 @@ namespace KoreanDate
             return (MonthsInYear(Year, EraType) == 13);
         }
 
+        /// <summary>
+        /// The number of days that have passed before the start of the given month in the given year.
+        /// </summary>
+        /// <param name="Year"></param>
+        /// <param name="EraType"></param>
+        /// <param name="Month"></param>
+        /// <returns></returns>
         private static int DaysUntilMonth(int Year, KoreanDateEraType EraType, int Month)
         {
-             if (Month > MonthsInYear(Year, EraType))
+            if (Month > MonthsInYear(Year, EraType))
             {
                 throw new ArgumentOutOfRangeException();
             }
@@ -330,11 +371,28 @@ namespace KoreanDate
             return (int)Math.Floor(KoreanDateConverter.LunarCycle * Months);
         }
 
+         private static int DaysUntilMonth( int Month)
+        {
+            return (int)Math.Floor(Month * KoreanDateConverter.LunarCycle);
+        }
+
+        /// <summary>
+        /// The number of days that have passed before the start of the given year.
+        /// </summary>
+        /// <param name="Year"></param>
+        /// <param name="EraType"></param>
+        /// <returns></returns>
         private static int DaysUntilYear(int Year, KoreanDateEraType EraType)
         {
             return (int)Math.Floor(KoreanDateConverter.LunarCycle * MonthsUntilYear(Year, EraType));
         }
 
+        /// <summary>
+        /// The number of months that have passed before the start of the given year
+        /// </summary>
+        /// <param name="Year"></param>
+        /// <param name="EraType"></param>
+        /// <returns></returns>
         private static int MonthsUntilYear(int Year, KoreanDateEraType EraType)
         {
             var DaysUntilSolarYear = KoreanDateConverter.SolarCycle * Year;
