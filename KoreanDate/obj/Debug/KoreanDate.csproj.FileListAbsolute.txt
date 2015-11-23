@@ -3,3 +3,8 @@ C:\Users\BenjaminTMilnes\Libraries\Web Design and Coding\My Libraries\KoreanDate
 C:\Users\BenjaminTMilnes\Libraries\Web Design and Coding\My Libraries\KoreanDate\KoreanDate\bin\Debug\KoreanDate.pdb
 C:\Users\BenjaminTMilnes\Libraries\Web Design and Coding\My Libraries\KoreanDate\KoreanDate\obj\Debug\KoreanDate.dll
 C:\Users\BenjaminTMilnes\Libraries\Web Design and Coding\My Libraries\KoreanDate\KoreanDate\obj\Debug\KoreanDate.pdb
+C:\Users\Ben\Libraries\Websites\KoreanDate\KoreanDate\bin\Debug\KoreanDate.dll
+C:\Users\Ben\Libraries\Websites\KoreanDate\KoreanDate\bin\Debug\KoreanDate.pdb
+C:\Users\Ben\Libraries\Websites\KoreanDate\KoreanDate\obj\Debug\KoreanDate.csprojResolveAssemblyReference.cache
+C:\Users\Ben\Libraries\Websites\KoreanDate\KoreanDate\obj\Debug\KoreanDate.dll
+C:\Users\Ben\Libraries\Websites\KoreanDate\KoreanDate\obj\Debug\KoreanDate.pdb

@@ -12,23 +12,15 @@ namespace KoreanDate
     public sealed class KoreanDateConverter
     {
         /// <summary>
-        /// The average orbital period of the moon around the earth
-        /// </summary>
-        public const double LunarCycle = 29.530589;
-
-        /// <summary>
-        /// The average orbital period of the earth around the sun
-        /// </summary>
-        public const double SolarCycle = 365.2422;
-
-        /// <summary>
         /// Converts a Gregorian date into a Korean date.
         /// </summary>
         /// <param name="d"></param>
         /// <returns></returns>
-        public KoreanDate ConvertFromGregorianDateTime(DateTime d)
+        public static KoreanDate ConvertFromGregorianDateTime(DateTime d)
         {
-            throw new NotImplementedException();
+            var Day = (int)Math.Floor((d - KoreanDate.Epoch).TotalDays);
+
+            return new KoreanDate(KoreanDateEraType.Gojoseon, Day);
         }
 
         /// <summary>
@@ -36,9 +28,9 @@ namespace KoreanDate
         /// </summary>
         /// <param name="d"></param>
         /// <returns></returns>
-        public DateTime ConvertToGregorianDateTime(KoreanDate d)
+        public static DateTime ConvertToGregorianDateTime(KoreanDate d)
         {
-            throw new NotImplementedException();
+            return KoreanDate.Epoch.AddDays(d.Day);
         }
     }
 }

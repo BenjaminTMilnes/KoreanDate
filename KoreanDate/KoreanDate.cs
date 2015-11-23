@@ -42,8 +42,8 @@ namespace KoreanDate
 
             while (_Year <= Year && _Month <= Month)
             {
-                _DaysThroughMonth += KoreanDateConverter.LunarCycle;
-                _DaysThroughYear += KoreanDateConverter.LunarCycle;
+                _DaysThroughMonth += KoreanDate.LunarCycle;
+                _DaysThroughYear += KoreanDate.LunarCycle;
 
                 if (_DaysThroughMonth > 30)
                 {
@@ -56,7 +56,7 @@ namespace KoreanDate
                     _DaysInMonth = 29;
                 }
 
-                if (_Month < 12 || ((KoreanDateConverter.SolarCycle - _DaysThroughYear) > (KoreanDateConverter.LunarCycle / 2)))
+                if (_Month < 12 || ((KoreanDate.SolarCycle - _DaysThroughYear) > (KoreanDate.LunarCycle / 2)))
                 {
                     _Month++;
                 }
@@ -68,7 +68,7 @@ namespace KoreanDate
                     _Month = 1;
                     _Year++;
 
-                    _DaysThroughYear -= KoreanDateConverter.SolarCycle;
+                    _DaysThroughYear -= KoreanDate.SolarCycle;
                 }
             }
         }
@@ -77,13 +77,28 @@ namespace KoreanDate
     /// <summary>
     /// Represents a Korean date.
     /// </summary>
-    public struct KoreanDate : IEquatable<KoreanDate>, IComparable<KoreanDate>
+    public struct KoreanDate : IEquatable<KoreanDate>, IComparable<KoreanDate>, IFormattable
     {
         /*
         
             'Days' is the fundamental unit of this date.
 
             */
+
+        /// <summary>
+        /// The Gregorian date that corresponds to the Korean date 4346-01-01
+        /// </summary>
+        public readonly static DateTime Epoch = new DateTime(2013, 2, 10);
+
+        /// <summary>
+        /// The average orbital period of the moon around the earth
+        /// </summary>
+        public const double LunarCycle = 29.530589;
+
+        /// <summary>
+        /// The average orbital period of the earth around the sun
+        /// </summary>
+        public const double SolarCycle = 365.2422;
 
         private int _Year;
         private KoreanDateEraType _EraType;
@@ -96,7 +111,24 @@ namespace KoreanDate
         /// <summary>
         /// The number of years since the beginning of the calendar
         /// </summary>
-        public int Year { get { return _Year; } }
+        public int Year
+        {
+            get
+            {
+                if (_EraType == KoreanDateEraType.Gojoseon)
+                {
+                    return _Year + 2013 + 2333;
+                }
+                else if (_EraType == KoreanDateEraType.Joseon)
+                {
+                    return _Year + 2013 - 1392;
+                }
+                else
+                {
+                    throw new Exception("The era type has not been set.");
+                }
+            }
+        }
 
         /// <summary>
         /// The way in which the years are numbered
@@ -170,7 +202,7 @@ namespace KoreanDate
         public KoreanDate(KoreanDateEraType EraType, int Day)
         {
             _Year = 1;
-            _EraType = KoreanDateEraType.Joseon;
+            _EraType = KoreanDateEraType.Gojoseon;
             _Month = 1;
             _MonthOfYear = 1;
             _Day = 1;
@@ -183,9 +215,9 @@ namespace KoreanDate
         private void FromDay(KoreanDateEraType EraType, int Day)
         {
             _Day = Day;
-            _Month = (int)Math.Floor(_Day / KoreanDateConverter.LunarCycle);
+            _Month = (int)Math.Floor(_Day / LunarCycle);
 
-            var SolarYear = (int)Math.Floor(Day / KoreanDateConverter.SolarCycle);
+            var SolarYear = (int)Math.Floor(Day / SolarCycle);
             // The lunisolar year will either be one ahead, one behind, or the same as the solar year - that being the whole point of a lunisolar calendar.
 
             var MonthsUntilYear1 = MonthsUntilYear(SolarYear, EraType);
@@ -226,6 +258,17 @@ namespace KoreanDate
             _Day = 1;
             _DayOfYear = 1;
             _DayOfMonth = 1;
+
+            var YearFromEpoch = Year;
+
+            if (EraType == KoreanDateEraType.Gojoseon)
+            {
+                YearFromEpoch -= 2013 + 2333;
+            }
+            else if (EraType == KoreanDateEraType.Joseon)
+            {
+                YearFromEpoch -= 2013 - 1392;
+            }
 
             FromParts(Year, EraType, MonthOfYear, DayOfMonth);
         }
@@ -292,7 +335,7 @@ namespace KoreanDate
         /// <param name="Years"></param>
         public void AddYears(int Years)
         {
-            FromDay(_EraType, DaysUntilYear(_Year + Years, _EraType) + _DayOfYear);            
+            FromDay(_EraType, DaysUntilYear(_Year + Years, _EraType) + _DayOfYear);
         }
 
         /// <summary>
@@ -353,27 +396,32 @@ namespace KoreanDate
         }
 
         /// <summary>
-        /// The number of days that have passed before the start of the given month in the given year.
+        /// The number of days that have passed before the start of the given month in the given year
         /// </summary>
         /// <param name="Year"></param>
         /// <param name="EraType"></param>
         /// <param name="Month"></param>
         /// <returns></returns>
-        private static int DaysUntilMonth(int Year, KoreanDateEraType EraType, int Month)
+        private static int DaysUntilMonth(int Year, KoreanDateEraType EraType, int MonthOfYear)
         {
-            if (Month > MonthsInYear(Year, EraType))
+            if (MonthOfYear > MonthsInYear(Year, EraType))
             {
                 throw new ArgumentOutOfRangeException();
             }
 
-            var Months = MonthsUntilYear(Year, EraType) + Month;
+            var Months = MonthsUntilYear(Year, EraType) + MonthOfYear;
 
-            return (int)Math.Floor(KoreanDateConverter.LunarCycle * Months);
+            return DaysUntilMonth(Months);
         }
 
-         private static int DaysUntilMonth( int Month)
+        /// <summary>
+        /// The number of days that have passed before the start of the given month
+        /// </summary>
+        /// <param name="Month"></param>
+        /// <returns></returns>
+        private static int DaysUntilMonth(int Month)
         {
-            return (int)Math.Floor(Month * KoreanDateConverter.LunarCycle);
+            return (int)Math.Floor(Month * LunarCycle);
         }
 
         /// <summary>
@@ -384,7 +432,7 @@ namespace KoreanDate
         /// <returns></returns>
         private static int DaysUntilYear(int Year, KoreanDateEraType EraType)
         {
-            return (int)Math.Floor(KoreanDateConverter.LunarCycle * MonthsUntilYear(Year, EraType));
+            return (int)Math.Floor(LunarCycle * MonthsUntilYear(Year, EraType));
         }
 
         /// <summary>
@@ -395,11 +443,11 @@ namespace KoreanDate
         /// <returns></returns>
         private static int MonthsUntilYear(int Year, KoreanDateEraType EraType)
         {
-            var DaysUntilSolarYear = KoreanDateConverter.SolarCycle * Year;
-            var RemainderDays = DaysUntilSolarYear % KoreanDateConverter.LunarCycle;
-            var MonthsUntilYear = (int)Math.Floor(DaysUntilSolarYear / KoreanDateConverter.LunarCycle);
+            var DaysUntilSolarYear = SolarCycle * Year;
+            var RemainderDays = DaysUntilSolarYear % LunarCycle;
+            var MonthsUntilYear = (int)Math.Floor(DaysUntilSolarYear / LunarCycle);
 
-            if (RemainderDays > KoreanDateConverter.LunarCycle / 2)
+            if (RemainderDays > LunarCycle / 2)
             {
                 return MonthsUntilYear + 1;
             }
@@ -431,7 +479,39 @@ namespace KoreanDate
 
         public override string ToString()
         {
-            return "";
+            return ToString("YYYY, M D");
+        }
+
+        public string ToString(string Format)
+        {
+            return ToString(Format, CultureInfo.CurrentCulture);
+        }
+
+        public string ToString(string Format, IFormatProvider FormatProvider)
+        {
+            Format = Format.Replace("YYYY", _Year.ToString("D4", FormatProvider));
+            Format = Format.Replace("YY", _Year.ToString("D2", FormatProvider));
+
+            Format = Format.Replace("MM", _MonthOfYear.ToString("D2", FormatProvider));
+            Format = Format.Replace("M", _MonthOfYear.ToString("D1", FormatProvider));
+
+            Format = Format.Replace("DD", _DayOfMonth.ToString("D2", FormatProvider));
+            Format = Format.Replace("D", _DayOfMonth.ToString("D1", FormatProvider));
+
+            var Era = "";
+
+            if (_EraType == KoreanDateEraType.Gojoseon)
+            {
+                Era = "Gojoseon";
+            }
+            else if (_EraType == KoreanDateEraType.Joseon)
+            {
+                Era = "Joseon";
+            }
+
+            Format = Format.Replace("E", Era);
+
+            return Format;
         }
     }
 }
