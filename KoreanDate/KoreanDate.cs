@@ -402,7 +402,7 @@ namespace KoreanDate
         /// <param name="EraType"></param>
         /// <param name="Month"></param>
         /// <returns></returns>
-        private static int DaysUntilMonth(int Year, KoreanDateEraType EraType, int MonthOfYear)
+        public static int DaysUntilMonth(int Year, KoreanDateEraType EraType, int MonthOfYear)
         {
             if (MonthOfYear > MonthsInYear(Year, EraType))
             {
@@ -419,7 +419,7 @@ namespace KoreanDate
         /// </summary>
         /// <param name="Month"></param>
         /// <returns></returns>
-        private static int DaysUntilMonth(int Month)
+        public static int DaysUntilMonth(int Month)
         {
             return (int)Math.Floor(Month * LunarCycle);
         }
@@ -430,7 +430,7 @@ namespace KoreanDate
         /// <param name="Year"></param>
         /// <param name="EraType"></param>
         /// <returns></returns>
-        private static int DaysUntilYear(int Year, KoreanDateEraType EraType)
+        public static int DaysUntilYear(int Year, KoreanDateEraType EraType)
         {
             return (int)Math.Floor(LunarCycle * MonthsUntilYear(Year, EraType));
         }
@@ -441,19 +441,37 @@ namespace KoreanDate
         /// <param name="Year"></param>
         /// <param name="EraType"></param>
         /// <returns></returns>
-        private static int MonthsUntilYear(int Year, KoreanDateEraType EraType)
+        public static int MonthsUntilYear(int Year, KoreanDateEraType EraType)
         {
-            var DaysUntilSolarYear = SolarCycle * Year;
+            if (Year == 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(Year), "There is no year 0.");
+            }
+            else if (Year > 0)
+            {
+                Year--;
+            }
+            else if (Year < 0)
+            {
+                Year++;
+            }
+
+            var DaysUntilSolarYear = SolarCycle * Math.Abs(Year);
             var RemainderDays = DaysUntilSolarYear % LunarCycle;
             var MonthsUntilYear = (int)Math.Floor(DaysUntilSolarYear / LunarCycle);
 
             if (RemainderDays > LunarCycle / 2)
             {
-                return MonthsUntilYear + 1;
+                MonthsUntilYear++;
+            }
+
+            if (Year > 0)
+            {
+                return MonthsUntilYear;
             }
             else
             {
-                return MonthsUntilYear;
+                return -MonthsUntilYear;
             }
         }
 
