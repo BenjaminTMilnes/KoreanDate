@@ -6,10 +6,120 @@ using System.Threading.Tasks;
 
 namespace KoreanDate.TerminalApplication
 {
+    internal struct DayCounter
+    {
+        private int _Month;
+        private int _Year;
+
+        private double _DaysThroughMonth;
+        private double _DaysThroughYear;
+
+        private int _DaysInMonth;
+        private int _DaysInYear;
+        private int _MonthsInYear;
+
+        public int DaysInMonth { get { return _DaysInMonth; } }
+        public int DaysInYear { get { return _DaysInYear; } }
+        public int MonthsInYear { get { return _MonthsInYear; } }
+
+        public void CountUpTo(int Year)
+        {
+            CountUpTo(Year, 13);
+        }
+
+        public void CountUpTo(int Year, int Month)
+        {
+            _Month = 1;
+            _Year = 1;
+
+            _DaysThroughMonth = 0;
+            _DaysThroughYear = 0;
+
+            _DaysInMonth = 0;
+            _DaysInYear = 0;
+            _MonthsInYear = 0;
+
+            while (_Year <= Year && _Month <= Month)
+            {
+                _DaysThroughMonth += KoreanDate.LunarCycle;
+                _DaysThroughYear += KoreanDate.LunarCycle;
+
+                if (_DaysThroughMonth > 30)
+                {
+                    _DaysThroughMonth -= 30;
+                    _DaysInMonth = 30;
+                }
+                else if (_DaysThroughMonth > 29)
+                {
+                    _DaysThroughMonth -= 29;
+                    _DaysInMonth = 29;
+                }
+
+                if (_Month < 12 || ((KoreanDate.SolarCycle - _DaysThroughYear) > (KoreanDate.LunarCycle / 2)))
+                {
+                    _Month++;
+                }
+                else
+                {
+                    _DaysInYear = (int)_DaysThroughYear;
+                    _MonthsInYear = _Month;
+
+                    _Month = 1;
+                    _Year++;
+
+                    _DaysThroughYear -= KoreanDate.SolarCycle;
+                }
+            }
+        }
+    }
+
     class Program
     {
         static void Main(string[] args)
         {
+            var DaysThroughMonth = 0.0;
+            var DaysThroughYear = 0.0;
+            var Month = 0.0;
+            var LunarYear = 1;
+
+            while (LunarYear < 40)
+            {
+
+                DaysThroughMonth += KoreanDate.LunarCycle;
+                DaysThroughYear += KoreanDate.LunarCycle;
+
+                if (DaysThroughMonth >= 30.0)
+                {
+                    DaysThroughMonth -= 30.0;
+                    Console.Write(30 + ", ");
+                }
+                else if (DaysThroughMonth >= 29.0)
+                {
+                    DaysThroughMonth -= 29.0;
+                    Console.Write(29 + ", ");
+                }
+
+                if (Month < 12 || (KoreanDate.SolarCycle - DaysThroughYear) > (KoreanDate.LunarCycle / 2))
+                {
+                    Month++;
+                }
+                else
+                {
+                    Console.Write((int)Math.Floor(DaysThroughYear) + ", ");
+                    DaysThroughYear -= KoreanDate.SolarCycle;
+                    DaysThroughMonth += KoreanDate.SolarCycle - DaysThroughYear;
+                    Console.Write((int)Math.Floor(Month) + ", ");
+                    Month = 0.0;
+                    Console.Write(LunarYear);
+                    LunarYear++;
+                    Console.WriteLine();
+                }
+
+            }
+
+            Console.WriteLine();
+            Console.WriteLine();
+
             //for (var i = 1; i <= 12; i++)
             //{
             //    Console.WriteLine("Year " + i.ToString());
@@ -27,7 +137,22 @@ namespace KoreanDate.TerminalApplication
             //    Console.WriteLine();
             //}
 
-            Console.WriteLine(KoreanDateConverter.ConvertFromGregorianDateTime(new DateTime(2015, 10, 10)));
+            //  Console.WriteLine(KoreanDateConverter.ConvertFromGregorianDateTime(new DateTime(2015, 10, 10)));
+
+            for (var i = 1; i <= 40; i++)
+            {
+                var j = KoreanDate.MonthsInYear(i, KoreanDateEraType.Gojoseon);
+
+                for (var k = 1; k <= j; k++)
+                {
+                    Console.Write(KoreanDate.DaysInMonth(i, KoreanDateEraType.Gojoseon, k) + ", ");
+                }
+
+                Console.Write(KoreanDate.DaysInYear(i, KoreanDateEraType.Gojoseon) + ", ");
+
+                Console.Write(KoreanDate.MonthsInYear(i, KoreanDateEraType.Gojoseon) + ", ");
+                Console.WriteLine();
+            }
 
             Console.ReadLine();
         }

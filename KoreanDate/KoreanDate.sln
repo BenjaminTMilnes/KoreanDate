@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KoreanDate", "KoreanDate.cs
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KoreanDate.TerminalApplication", "..\KoreanDate.TerminalApplication\KoreanDate.TerminalApplication.csproj", "{B7AAE581-4EDC-43C8-B650-4E2EF2711167}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KoreanDate.Tests", "KoreanDate.Tests\KoreanDate.Tests.csproj", "{9BFA3D81-310D-426D-A77E-14659F74E5CD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KoreanDate.Tests", "..\KoreanDate.Tests\KoreanDate.Tests.csproj", "{838991F9-7110-47D0-889D-EE5C162ED6AA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{B7AAE581-4EDC-43C8-B650-4E2EF2711167}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B7AAE581-4EDC-43C8-B650-4E2EF2711167}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B7AAE581-4EDC-43C8-B650-4E2EF2711167}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9BFA3D81-310D-426D-A77E-14659F74E5CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9BFA3D81-310D-426D-A77E-14659F74E5CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9BFA3D81-310D-426D-A77E-14659F74E5CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9BFA3D81-310D-426D-A77E-14659F74E5CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{838991F9-7110-47D0-889D-EE5C162ED6AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{838991F9-7110-47D0-889D-EE5C162ED6AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{838991F9-7110-47D0-889D-EE5C162ED6AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{838991F9-7110-47D0-889D-EE5C162ED6AA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -59,5 +59,35 @@ namespace KoreanDate.Tests
         {
             Assert.AreEqual(12, KoreanDate.MonthsUntilYear(-2, KoreanDateEraType.Joseon));
         }
+
+        [TestMethod]
+        public void MonthsInYear1Test()
+        {
+            Assert.AreEqual(12, KoreanDate.MonthsInYear(1, KoreanDateEraType.Joseon));
+        }
+
+        [TestMethod]
+        public void MonthsInYear2Test()
+        {
+            Assert.AreEqual(12, KoreanDate.MonthsInYear(2, KoreanDateEraType.Joseon));
+        }
+
+        [TestMethod]
+        public void MonthsInYear3Test()
+        {
+            Assert.AreEqual(12, KoreanDate.MonthsInYear(3, KoreanDateEraType.Joseon));
+        }
+
+        [TestMethod]
+        public void MonthsInYear4Test()
+        {
+            Assert.AreEqual(12, KoreanDate.MonthsInYear(4, KoreanDateEraType.Joseon));
+        }
+
+        [TestMethod]
+        public void MonthsInYear10Test()
+        {
+            Assert.AreEqual(12, KoreanDate.MonthsInYear(10, KoreanDateEraType.Joseon));
+        }
     }
 }

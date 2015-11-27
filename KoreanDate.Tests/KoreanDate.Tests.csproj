@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9BFA3D81-310D-426D-A77E-14659F74E5CD}</ProjectGuid>
+    <ProjectGuid>{838991F9-7110-47D0-889D-EE5C162ED6AA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>KoreanDate.Tests</RootNamespace>
@@ -54,7 +54,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\KoreanDate.csproj">
+    <ProjectReference Include="..\KoreanDate\KoreanDate.csproj">
       <Project>{63a8f063-c935-41eb-a20a-788dfa58cc48}</Project>
       <Name>KoreanDate</Name>
     </ProjectReference>

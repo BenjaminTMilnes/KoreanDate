@@ -1,8 +1,0 @@
-C:\Users\Ben\Libraries\Websites\KoreanDate\KoreanDate\KoreanDate.Tests\bin\Debug\KoreanDate.Tests.dll
-C:\Users\Ben\Libraries\Websites\KoreanDate\KoreanDate\KoreanDate.Tests\bin\Debug\KoreanDate.Tests.pdb
-C:\Users\Ben\Libraries\Websites\KoreanDate\KoreanDate\KoreanDate.Tests\bin\Debug\KoreanDate.dll
-C:\Users\Ben\Libraries\Websites\KoreanDate\KoreanDate\KoreanDate.Tests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
-C:\Users\Ben\Libraries\Websites\KoreanDate\KoreanDate\KoreanDate.Tests\bin\Debug\KoreanDate.pdb
-C:\Users\Ben\Libraries\Websites\KoreanDate\KoreanDate\KoreanDate.Tests\obj\Debug\KoreanDate.Tests.csprojResolveAssemblyReference.cache
-C:\Users\Ben\Libraries\Websites\KoreanDate\KoreanDate\KoreanDate.Tests\obj\Debug\KoreanDate.Tests.dll
-C:\Users\Ben\Libraries\Websites\KoreanDate\KoreanDate\KoreanDate.Tests\obj\Debug\KoreanDate.Tests.pdb
