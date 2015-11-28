@@ -6,3 +6,11 @@ C:\Users\Ben\Libraries\Websites\KoreanDate\KoreanDate.Tests\bin\Debug\KoreanDate
 C:\Users\Ben\Libraries\Websites\KoreanDate\KoreanDate.Tests\obj\Debug\KoreanDate.Tests.csprojResolveAssemblyReference.cache
 C:\Users\Ben\Libraries\Websites\KoreanDate\KoreanDate.Tests\obj\Debug\KoreanDate.Tests.dll
 C:\Users\Ben\Libraries\Websites\KoreanDate\KoreanDate.Tests\obj\Debug\KoreanDate.Tests.pdb
+C:\Users\BenjaminTMilnes\Libraries\Web Design and Coding\My Libraries\KoreanDate\KoreanDate.Tests\obj\Debug\KoreanDate.Tests.csprojResolveAssemblyReference.cache
+C:\Users\BenjaminTMilnes\Libraries\Web Design and Coding\My Libraries\KoreanDate\KoreanDate.Tests\bin\Debug\KoreanDate.Tests.dll
+C:\Users\BenjaminTMilnes\Libraries\Web Design and Coding\My Libraries\KoreanDate\KoreanDate.Tests\bin\Debug\KoreanDate.Tests.pdb
+C:\Users\BenjaminTMilnes\Libraries\Web Design and Coding\My Libraries\KoreanDate\KoreanDate.Tests\bin\Debug\KoreanDate.dll
+C:\Users\BenjaminTMilnes\Libraries\Web Design and Coding\My Libraries\KoreanDate\KoreanDate.Tests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+C:\Users\BenjaminTMilnes\Libraries\Web Design and Coding\My Libraries\KoreanDate\KoreanDate.Tests\bin\Debug\KoreanDate.pdb
+C:\Users\BenjaminTMilnes\Libraries\Web Design and Coding\My Libraries\KoreanDate\KoreanDate.Tests\obj\Debug\KoreanDate.Tests.dll
+C:\Users\BenjaminTMilnes\Libraries\Web Design and Coding\My Libraries\KoreanDate\KoreanDate.Tests\obj\Debug\KoreanDate.Tests.pdb

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KoreanDate;
 
 namespace KoreanDate.TerminalApplication
 {
@@ -77,9 +78,10 @@ namespace KoreanDate.TerminalApplication
     {
         static void Main(string[] args)
         {
+            var DaysInYear = 0;
             var DaysThroughMonth = 0.0;
             var DaysThroughYear = 0.0;
-            var Month = 0.0;
+            var Month = 1;
             var LunarYear = 1;
 
             while (LunarYear < 40)
@@ -89,13 +91,15 @@ namespace KoreanDate.TerminalApplication
                 DaysThroughYear += KoreanDate.LunarCycle;
 
                 if (DaysThroughMonth >= 30.0)
-                {
+                {                  
                     DaysThroughMonth -= 30.0;
+                    DaysInYear += 30;
                     Console.Write(30 + ", ");
                 }
                 else if (DaysThroughMonth >= 29.0)
                 {
                     DaysThroughMonth -= 29.0;
+                    DaysInYear += 29;
                     Console.Write(29 + ", ");
                 }
 
@@ -105,11 +109,11 @@ namespace KoreanDate.TerminalApplication
                 }
                 else
                 {
-                    Console.Write((int)Math.Floor(DaysThroughYear) + ", ");
+                    Console.Write(DaysInYear + ", ");
+                    DaysInYear = 0;
                     DaysThroughYear -= KoreanDate.SolarCycle;
-                    DaysThroughMonth += KoreanDate.SolarCycle - DaysThroughYear;
-                    Console.Write((int)Math.Floor(Month) + ", ");
-                    Month = 0.0;
+                    Console.Write(Month + ", ");
+                    Month = 1;
                     Console.Write(LunarYear);
                     LunarYear++;
                     Console.WriteLine();

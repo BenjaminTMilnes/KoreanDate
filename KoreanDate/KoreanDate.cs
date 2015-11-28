@@ -148,13 +148,13 @@ namespace KoreanDate
         private void FromDay(KoreanDateEraType EraType, int Day)
         {
             _Day = Day;
-            _Month = (int)Math.Floor(_Day / LunarCycle);
+            _Month = (int)Math.Floor(_Day / LunarCycle) + 1;
 
-            var SolarYear = (int)Math.Floor(Day / SolarCycle);
+            var SolarYear = (int)Math.Floor(Day / SolarCycle) + 1;
             // The lunisolar year will either be one ahead, one behind, or the same as the solar year - that being the whole point of a lunisolar calendar.
 
             var MonthsUntilYear1 = MonthsUntilYear(SolarYear, EraType);
-            var MonthsDifference = _Month - MonthsUntilYear1;
+            var MonthsDifference = _Month - 1 - MonthsUntilYear1;
 
             if (MonthsDifference < 0)
             {
@@ -218,6 +218,11 @@ namespace KoreanDate
             _Year = Year;
             _EraType = EraType;
 
+             if (MonthOfYear > MonthsInYear(Year, EraType))
+            {
+                throw new ArgumentOutOfRangeException(nameof(MonthOfYear), $"There are only { MonthsInYear(Year, EraType)} months in year {Year}.");
+            }
+
             _Month = MonthsUntilYear(Year, EraType) + MonthOfYear;
             _MonthOfYear = MonthOfYear;
 
@@ -268,7 +273,7 @@ namespace KoreanDate
         /// <param name="Years"></param>
         public void AddYears(int Years)
         {
-            FromDay(_EraType, DaysUntilYear(_Year + Years, _EraType) + _DayOfYear);
+            FromDay(_EraType, DaysUntilMonth(MonthsUntilYear(_Year + Years, _EraType) + _MonthOfYear) + _DayOfMonth);
         }
 
         /// <summary>
@@ -296,6 +301,24 @@ namespace KoreanDate
             {
                 return (DaysUntilMonth(Year, EraType, Month + 1) - DaysUntilMonth(Year, EraType, Month));
             }
+        }
+
+        /// <summary>
+        /// The number of days in each of the months in the given year
+        /// </summary>
+        /// <param name="Year"></param>
+        /// <param name="EraType"></param>
+        /// <returns></returns>
+        public static int[] DaysInMonths(int Year, KoreanDateEraType EraType)
+        {
+            var DaysInMonths = new List<int>();
+
+            for (var n = 1; n <= MonthsInYear(Year, EraType); n++)
+            {
+                DaysInMonths.Add(DaysInMonth(Year, EraType, n));
+            }
+
+            return DaysInMonths.ToArray();
         }
 
         /// <summary>
@@ -354,7 +377,24 @@ namespace KoreanDate
         /// <returns></returns>
         public static int DaysUntilMonth(int Month)
         {
-            return (int)Math.Floor(Month * LunarCycle);
+            if (Month == 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(Month), "There is no month 0.");
+            }
+            else if (Month > 0)
+            {
+                Month--;
+                return (int)Math.Floor(Month * LunarCycle);
+            }
+            else if (Month < 0)
+            {
+                Month++;
+                return (int)Math.Ceiling(Month * LunarCycle);
+            }
+            else
+            {
+                throw new ArgumentException(nameof(Month));
+            }
         }
 
         /// <summary>
