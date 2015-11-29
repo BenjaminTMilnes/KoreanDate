@@ -51,8 +51,17 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AddDaysTests.cs" />
-    <Compile Include="KoreanDateTests.cs" />
+    <Compile Include="AddMonthsTests.cs" />
+    <Compile Include="AddYearsTests.cs" />
+    <Compile Include="DaysInYearTests.cs" />
+    <Compile Include="DaysUntilMonthTests.cs" />
+    <Compile Include="DaysUntilYearTests.cs" />
+    <Compile Include="FromDayTests.cs" />
+    <Compile Include="MonthsInYearTests.cs" />
+    <Compile Include="MonthsUntilYearTests.cs" />
+    <Compile Include="NewYearTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ToStringTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\KoreanDate\KoreanDate.csproj">

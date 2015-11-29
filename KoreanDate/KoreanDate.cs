@@ -44,24 +44,7 @@ namespace KoreanDate
         /// <summary>
         /// The number of years since the beginning of the calendar
         /// </summary>
-        public int Year
-        {
-            get
-            {
-                if (_EraType == KoreanDateEraType.Gojoseon)
-                {
-                    return _Year + 2013 + 2333;
-                }
-                else if (_EraType == KoreanDateEraType.Joseon)
-                {
-                    return _Year + 2013 - 1392;
-                }
-                else
-                {
-                    throw new Exception("The era type has not been set.");
-                }
-            }
-        }
+        public int Year { get { return _Year; } }
 
         /// <summary>
         /// The way in which the years are numbered
@@ -169,9 +152,9 @@ namespace KoreanDate
                 _Year = SolarYear;
             }
 
-            _DayOfYear = _Day - DaysUntilYear(_Year, EraType);
-            _DayOfMonth = _Day - DaysUntilMonth(_Year, EraType, _Month);
             _MonthOfYear = _Month - MonthsUntilYear(_Year, EraType);
+            _DayOfYear = _Day - DaysUntilYear(_Year, EraType);
+            _DayOfMonth = _Day - DaysUntilMonth(_Year, EraType, _MonthOfYear);
 
             _EraType = EraType;
         }
@@ -218,7 +201,7 @@ namespace KoreanDate
             _Year = Year;
             _EraType = EraType;
 
-             if (MonthOfYear > MonthsInYear(Year, EraType))
+            if (MonthOfYear > MonthsInYear(Year, EraType))
             {
                 throw new ArgumentOutOfRangeException(nameof(MonthOfYear), $"There are only { MonthsInYear(Year, EraType)} months in year {Year}.");
             }
@@ -304,6 +287,16 @@ namespace KoreanDate
         }
 
         /// <summary>
+        /// The number of days in the given month; either 29 or 30
+        /// </summary>
+        /// <param name="Month"></param>
+        /// <returns></returns>
+        public static int DaysInMonth(int Month)
+        {
+            return (DaysUntilMonth(Month + 1) - DaysUntilMonth(Month));
+        }
+
+        /// <summary>
         /// The number of days in each of the months in the given year
         /// </summary>
         /// <param name="Year"></param>
@@ -362,7 +355,7 @@ namespace KoreanDate
         {
             if (MonthOfYear > MonthsInYear(Year, EraType))
             {
-                throw new ArgumentOutOfRangeException();
+                throw new ArgumentOutOfRangeException( nameof(MonthOfYear), $"There are only {MonthsInYear(Year, EraType)} months in year {Year}.");
             }
 
             var Months = MonthsUntilYear(Year, EraType) + MonthOfYear;
@@ -481,7 +474,7 @@ namespace KoreanDate
         public string ToString(string Format, IFormatProvider FormatProvider)
         {
             Format = Format.Replace("YYYY", _Year.ToString("D4", FormatProvider));
-            Format = Format.Replace("YY", _Year.ToString("D2", FormatProvider));
+            Format = Format.Replace("YY", (_Year % 100).ToString("D2", FormatProvider));
 
             Format = Format.Replace("MM", _MonthOfYear.ToString("D2", FormatProvider));
             Format = Format.Replace("M", _MonthOfYear.ToString("D1", FormatProvider));
