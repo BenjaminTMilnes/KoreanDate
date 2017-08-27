@@ -50,6 +50,42 @@ var date = KoreanDateConverter.ConvertToGregorianDateTime(new KoreanDate(4360, K
 
 ```
 
+### Finding out the number of months in a year
+
+```csharp
+
+KoreanDate.MonthsInYear(4347, KoreanDateEraType.Gojoseon);
+
+```
+
+### Finding out if a year is a leap year
+
+```csharp
+
+KoreanDate.IsLeapYear(4347, KoreanDateEraType.Gojoseon);
+
+```
+
+### KoreanDate.ToString()
+
+```csharp
+
+var koreanDate = new KoreanDate(4346, KoreanDateEraType.Gojoseon, 8, 4);
+
+koreanDate.ToString(); // 4346, 8 4
+
+koreanDate.ToString("YYYY"); // 4346
+koreanDate.ToString("YY"); // 46
+koreanDate.ToString("MM"); // 08
+koreanDate.ToString("M"); // 8
+koreanDate.ToString("DD"); // 04
+koreanDate.ToString("D"); // 4
+koreanDate.ToString("E"); // Gojoseon
+
+koreanDate.ToString("YYYY E, M D"); // 4346 Gojoseon, 8, 4
+
+```
+
 ```csharp
 
 
