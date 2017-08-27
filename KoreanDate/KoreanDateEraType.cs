@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace KoreanDate
+﻿namespace KoreanDate
 {
     /// <summary>
     /// Represents the way in which the years of a KoreanDate are numbered.

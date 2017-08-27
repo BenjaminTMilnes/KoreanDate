@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Globalization;
 
 namespace KoreanDate
@@ -16,7 +13,13 @@ namespace KoreanDate
         
             'Days' is the fundamental unit of this date.
 
+            All year, month, and day counters are 1-based.
+
+            The two primary calculations that this class performs are DaysUntilMonth and MonthsUntilYear - all of the other calculations are derivatives of these.
+
             */
+
+        #region Constants
 
         /// <summary>
         /// The Gregorian date that corresponds to the Korean date 4346-01-01
@@ -32,6 +35,10 @@ namespace KoreanDate
         /// The average orbital period of the earth around the sun
         /// </summary>
         public const double SolarCycle = 365.2422;
+
+        #endregion
+
+        #region Properties
 
         private int _Year;
         private KoreanDateEraType _EraType;
@@ -76,10 +83,14 @@ namespace KoreanDate
         /// </summary>
         public int DayOfMonth { get { return _DayOfMonth; } }
 
+        #endregion
+
         /// <summary>
-        /// The KoreanDate of today
+        /// The date of today according to the Korean lunisolar calendar
         /// </summary>
-        public static KoreanDate Today { get; }
+        public static KoreanDate Today { get { return KoreanDateConverter.ConvertFromGregorianDateTime(DateTime.Today); } }
+
+        #region Operator Overloads
 
         public static bool operator ==(KoreanDate a, KoreanDate b)
         {
@@ -111,6 +122,10 @@ namespace KoreanDate
             return (a.Day <= b.Day);
         }
 
+        #endregion
+
+        #region Constructors
+
         /// <summary>
         /// Creates a new instance of KoreanDate based on the number of days since the start of the calendar.
         /// </summary>
@@ -128,6 +143,11 @@ namespace KoreanDate
             FromDay(EraType, Day);
         }
 
+        /// <summary>
+        /// Sets the properties of this KoreanDate instance based on the given day.
+        /// </summary>
+        /// <param name="EraType"></param>
+        /// <param name="Day"></param>
         private void FromDay(KoreanDateEraType EraType, int Day)
         {
             _Day = Day;
@@ -190,7 +210,7 @@ namespace KoreanDate
         }
 
         /// <summary>
-        /// Sets the properties of this KoreanDate instance based on the given components. This function will compensate for excessive values like 22 months or 60 days by counting forward.
+        /// Sets the properties of this KoreanDate instance based on the given components.
         /// </summary>
         /// <param name="Year"></param>
         /// <param name="EraType"></param>
@@ -201,9 +221,14 @@ namespace KoreanDate
             _Year = Year;
             _EraType = EraType;
 
+            if (MonthOfYear < 1)
+            {
+                throw new ArgumentOutOfRangeException(nameof(MonthOfYear), $"The month of the year must be greater than 0.");
+            }
+
             if (MonthOfYear > MonthsInYear(Year, EraType))
             {
-                throw new ArgumentOutOfRangeException(nameof(MonthOfYear), $"There are only { MonthsInYear(Year, EraType)} months in year {Year}.");
+                throw new ArgumentOutOfRangeException(nameof(MonthOfYear), $"There are only {MonthsInYear(Year, EraType)} months in year {Year}.");
             }
 
             _Month = MonthsUntilYear(Year, EraType) + MonthOfYear;
@@ -213,6 +238,10 @@ namespace KoreanDate
             _DayOfYear = _Day - DaysUntilYear(Year, EraType);
             _DayOfMonth = DayOfMonth;
         }
+
+        #endregion
+
+        #region Adding and Subtracting
 
         /// <summary>
         /// Adds the given number of days to this KoreanDate instance.
@@ -247,7 +276,7 @@ namespace KoreanDate
         /// <param name="Months"></param>
         public void SubtractMonths(int Months)
         {
-            SubtractMonths(-Months);
+            AddMonths(-Months);
         }
 
         /// <summary>
@@ -265,24 +294,28 @@ namespace KoreanDate
         /// <param name="Years"></param>
         public void SubtractYears(int Years)
         {
-            SubtractYears(-Years);
+            AddYears(-Years);
         }
+
+        #endregion
+
+        #region Primary Calculations
 
         /// <summary>
         /// The number of days in the given month in the given year; for the Korean lunisolar calendar, this is either 29 or 30
         /// </summary>
         /// <param name="Year"></param>
-        /// <param name="Month"></param>
+        /// <param name="MonthOfYear"></param>
         /// <returns></returns>
-        public static int DaysInMonth(int Year, KoreanDateEraType EraType, int Month)
+        public static int DaysInMonth(int Year, KoreanDateEraType EraType, int MonthOfYear)
         {
-            if (Month == MonthsInYear(Year, EraType))
+            if (MonthOfYear == MonthsInYear(Year, EraType))
             {
-                return (DaysUntilMonth(Year + 1, EraType, 1) - DaysUntilMonth(Year, EraType, Month));
+                return (DaysUntilMonth(Year + 1, EraType, 1) - DaysUntilMonth(Year, EraType, MonthOfYear));
             }
             else
             {
-                return (DaysUntilMonth(Year, EraType, Month + 1) - DaysUntilMonth(Year, EraType, Month));
+                return (DaysUntilMonth(Year, EraType, MonthOfYear + 1) - DaysUntilMonth(Year, EraType, MonthOfYear));
             }
         }
 
@@ -335,7 +368,7 @@ namespace KoreanDate
         }
 
         /// <summary>
-        /// Whether or not a given year is a leap year; a normal lunisolar year has twelve months, a leap year has thirteen months
+        /// Whether or not a given year is a leap year; a normal lunisolar year has 12 months, a leap year has 13 months
         /// </summary>
         /// <param name="Year"></param>
         /// <returns></returns>
@@ -353,9 +386,14 @@ namespace KoreanDate
         /// <returns></returns>
         public static int DaysUntilMonth(int Year, KoreanDateEraType EraType, int MonthOfYear)
         {
+            if (MonthOfYear < 1)
+            {
+                throw new ArgumentOutOfRangeException(nameof(MonthOfYear), $"The month of the year must be greater than 0.");
+            }
+
             if (MonthOfYear > MonthsInYear(Year, EraType))
             {
-                throw new ArgumentOutOfRangeException( nameof(MonthOfYear), $"There are only {MonthsInYear(Year, EraType)} months in year {Year}.");
+                throw new ArgumentOutOfRangeException(nameof(MonthOfYear), $"There are only {MonthsInYear(Year, EraType)} months in year {Year}.");
             }
 
             var Months = MonthsUntilYear(Year, EraType) + MonthOfYear;
@@ -384,14 +422,12 @@ namespace KoreanDate
                 Month++;
                 return (int)Math.Ceiling(Month * LunarCycle);
             }
-            else
-            {
-                throw new ArgumentException(nameof(Month));
-            }
+
+            throw new ArgumentException(nameof(Month));
         }
 
         /// <summary>
-        /// The number of days that have passed before the start of the given year.
+        /// The number of days that have passed before the start of the given year
         /// </summary>
         /// <param name="Year"></param>
         /// <param name="EraType"></param>
@@ -441,6 +477,10 @@ namespace KoreanDate
             }
         }
 
+        #endregion
+
+        #region Comparisons
+
         public bool Equals(KoreanDate d)
         {
             if (d == null)
@@ -460,6 +500,10 @@ namespace KoreanDate
 
             return Day.CompareTo(d.Day);
         }
+
+        #endregion
+
+        #region String Formatting
 
         public override string ToString()
         {
@@ -497,5 +541,7 @@ namespace KoreanDate
 
             return Format;
         }
+
+        #endregion
     }
 }
