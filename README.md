@@ -26,7 +26,17 @@ Converts between a native C# DateTime and KoreanDate.
 Examples
 --------
 
-### Get today's date in the Korean calendar
+
+### Creating a new instance of KoreanDate
+
+```csharp
+
+var koreanDate = new KoreanDate(4347, KoreanDateEraType.Gojoseon, 8, 4);
+
+```
+
+
+### Getting today's date in the Korean calendar
 
 ```csharp
 
@@ -34,7 +44,8 @@ var today = KoreanDate.Today;
 
 ```
 
-### Convert a Gregorian date into a Korean date
+
+### Converting a Gregorian date into a Korean date
 
 ```csharp
 
@@ -42,13 +53,33 @@ var koreanDate = KoreanDateConverter.ConvertFromGregorianDateTime(DateTime.Today
 
 ```
 
-### Convert from a Korean date into a Gregorian date
+
+### Converting a Korean date into a Gregorian date
 
 ```csharp
 
-var date = KoreanDateConverter.ConvertToGregorianDateTime(new KoreanDate(4360, KoreanDateEraType.Gojoseon, 3, 1));
+var date = KoreanDateConverter.ConvertToGregorianDateTime(new KoreanDate(4347, KoreanDateEraType.Gojoseon, 8, 4));
 
 ```
+
+
+### Adding and Subtracting
+
+```csharp
+
+var koreanDate = new KoreanDate(4347, KoreanDateEraType.Gojoseon, 8, 4);
+
+koreanDate.AddDays(1); // 4347, 8 5
+koreanDate.SubtractDays(3); // 4347, 8 2
+
+koreanDate.AddMonths(1); // 4347, 9 2
+koreanDate.SubtractMonths(3); // 4347, 6 2
+
+koreanDate.AddYears(1); // 4348, 6 2
+koreanDate.SubtractYears(2); // 4346, 6 2
+
+```
+
 
 ### Finding out the number of months in a year
 
@@ -58,6 +89,7 @@ KoreanDate.MonthsInYear(4347, KoreanDateEraType.Gojoseon);
 
 ```
 
+
 ### Finding out if a year is a leap year
 
 ```csharp
@@ -65,6 +97,7 @@ KoreanDate.MonthsInYear(4347, KoreanDateEraType.Gojoseon);
 KoreanDate.IsLeapYear(4347, KoreanDateEraType.Gojoseon);
 
 ```
+
 
 ### KoreanDate.ToString()
 
@@ -83,10 +116,5 @@ koreanDate.ToString("D"); // 4
 koreanDate.ToString("E"); // Gojoseon
 
 koreanDate.ToString("YYYY E, M D"); // 4346 Gojoseon, 8, 4
-
-```
-
-```csharp
-
 
 ```
