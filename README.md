@@ -26,16 +26,31 @@ Converts between a native C# DateTime and KoreanDate.
 Examples
 --------
 
-```csharp
-var converter = new KoreanDateConverter();
-
-var koreanDate = converter.ConvertToKoreanDate(DateTime.Now);
-```
-
 ### Get today's date in the Korean calendar
 
 ```csharp
 
 var today = KoreanDate.Today;
+
+```
+
+### Convert a Gregorian date into a Korean date
+
+```csharp
+
+var koreanDate = KoreanDateConverter.ConvertFromGregorianDateTime(DateTime.Today);
+
+```
+
+### Convert from a Korean date into a Gregorian date
+
+```csharp
+
+var date = KoreanDateConverter.ConvertToGregorianDateTime(new KoreanDate(4360, KoreanDateEraType.Gojoseon, 3, 1));
+
+```
+
+```csharp
+
 
 ```
