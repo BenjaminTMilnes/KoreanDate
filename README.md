@@ -31,3 +31,11 @@ var converter = new KoreanDateConverter();
 
 var koreanDate = converter.ConvertToKoreanDate(DateTime.Now);
 ```
+
+### Get today's date in the Korean calendar
+
+```csharp
+
+var today = KoreanDate.Today;
+
+```
