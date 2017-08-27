@@ -1,31 +1,16 @@
-Korean Date
-===========
+# KoreanDate
 
-A small class library for converting between the solar Gregorian calendar and the lunisolar Korean calendar.
+A small C# class library for converting between the Gregorian solar calendar and the traditional Korean lunisolar calendar.
 
-Classes, Structures, and Enumerations
-----------------------
+The main structure in this library is KoreanDate, which represents a date in the Korean lunisolar calendar, and is an analogue of the native C# DateTime structure. It has many similarly-named properties, fields, and methods to DateTime, and implements some of the same interfaces.
 
-### KoreanDate
+The KoreanDate structure has no concept of time, since there is no distinct 'Korean time'. When converting from a DateTime object to a KoreanDate object, the time component is ignored.
 
-Represents a date in the Korean lunisolar calendar. The main properties are Year, MonthOfYear, and DayOfMonth.
-Time is not represented by the class, since there is no distinct 'Korean Time'.
+The KoreanDateConverter class has static functions on it that are useful for converting between Gregorian and Korean dates, but the actual conversion calculation is done by the KoreanDate structure.
 
-This structure attempts to mimic the native C# DateTime structure. It contains many similarly-named properties, fields,
-and methods, and implements many of the same interfaces.
+The KoreanDate structure has an EraType property, which is one of the values of the KoreanDateEraType enumeration. This determines the method used to number the years. In the Korean calendar, years can be numbered from the start of the Joseon dynasty, in 1392 CE, or from the start of the Gojoseon dynasty, in 2333 BCE.
 
-### KoreanDateEraType
-
-Represents the way in which years are numbered for a KoreanDate. In the Korean calendar, years can be numbered from the start
-of the Joseon dynasty, in 1392 CE, or from the start of the Gojoseon dynasty, in 2333 BCE.
-
-### KoreanDateConverter
-
-Converts between a native C# DateTime and KoreanDate.
-
-Examples
---------
-
+## Examples
 
 ### Creating a new instance of KoreanDate
 
