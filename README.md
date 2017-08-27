@@ -2,13 +2,13 @@
 
 A small C# class library for converting between the Gregorian solar calendar and the traditional Korean lunisolar calendar.
 
-The main structure in this library is KoreanDate, which represents a date in the Korean lunisolar calendar, and is an analogue of the native C# DateTime structure. It has many similarly-named properties, fields, and methods to DateTime, and implements some of the same interfaces.
+The main structure in this library is **KoreanDate**, which represents a date in the Korean lunisolar calendar, and is an analogue of the native C# DateTime structure. It has many similarly-named properties, fields, and methods to DateTime, and implements some of the same interfaces.
 
 The KoreanDate structure has no concept of time, since there is no distinct 'Korean time'. When converting from a DateTime object to a KoreanDate object, the time component is ignored.
 
-The KoreanDateConverter class has static functions on it that are useful for converting between Gregorian and Korean dates, but the actual conversion calculation is done by the KoreanDate structure.
+The **KoreanDateConverter** class has static functions on it that are useful for converting between Gregorian and Korean dates, but the actual conversion calculation is done by the KoreanDate structure.
 
-The KoreanDate structure has an EraType property, which is one of the values of the KoreanDateEraType enumeration. This determines the method used to number the years. In the Korean calendar, years can be numbered from the start of the Joseon dynasty, in 1392 CE, or from the start of the Gojoseon dynasty, in 2333 BCE.
+The KoreanDate structure has an EraType property, which is one of the values of the **KoreanDateEraType** enumeration. This determines the method used to number the years. In the Korean calendar, years can be numbered from the start of the Joseon dynasty, in 1392 CE, or from the start of the Gojoseon dynasty, in 2333 BCE.
 
 ## Examples
 
