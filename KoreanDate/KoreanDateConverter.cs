@@ -16,11 +16,11 @@ namespace KoreanDate
         /// </summary>
         /// <param name="d"></param>
         /// <returns></returns>
-        public static KoreanDate ConvertFromGregorianDateTime(DateTime d)
+        public static KoreanDate ConvertFromGregorianDateTime(DateTime d, KoreanDateEraType EraType = KoreanDateEraType.Gojoseon)
         {
             var Day = (int)Math.Floor((d - KoreanDate.Epoch).TotalDays);
 
-            return new KoreanDate(KoreanDateEraType.Gojoseon, Day);
+            return new KoreanDate(EraType, Day);
         }
 
         /// <summary>

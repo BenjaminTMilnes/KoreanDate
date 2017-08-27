@@ -14,3 +14,6 @@ C:\Users\BenjaminTMilnes\Libraries\Web Design and Coding\My Libraries\KoreanDate
 C:\Users\BenjaminTMilnes\Libraries\Web Design and Coding\My Libraries\KoreanDate\KoreanDate.TerminalApplication\obj\Debug\KoreanDate.TerminalApplication.csprojResolveAssemblyReference.cache
 C:\Users\BenjaminTMilnes\Libraries\Web Design and Coding\My Libraries\KoreanDate\KoreanDate.TerminalApplication\obj\Debug\KoreanDate.TerminalApplication.exe
 C:\Users\BenjaminTMilnes\Libraries\Web Design and Coding\My Libraries\KoreanDate\KoreanDate.TerminalApplication\obj\Debug\KoreanDate.TerminalApplication.pdb
+C:\Users\BenjaminTMilnes\Libraries\Programming\Websites and Code Libraries\KoreanDate\KoreanDate.TerminalApplication\bin\Debug\KoreanDate.TerminalApplication.exe.config
+C:\Users\BenjaminTMilnes\Libraries\Programming\Websites and Code Libraries\KoreanDate\KoreanDate.TerminalApplication\obj\Debug\KoreanDate.TerminalApplication.exe
+C:\Users\BenjaminTMilnes\Libraries\Programming\Websites and Code Libraries\KoreanDate\KoreanDate.TerminalApplication\obj\Debug\KoreanDate.TerminalApplication.pdb
